@@ -41,21 +41,32 @@ PARTITIONS_DEF = StaticPartitionsDefinition(
 
 
 @static_partitioned_config(partition_keys=PARTITIONS_DEF.get_partition_keys())
-def partitioned_config(partition_key: str) -> Config:
+def partitioned_config(partition_key: str):
     """Partitioned configuration for the data pipeline."""
 
-    return Config(
-        stock_config=StockConfig(
-            ticker=partition_key, api_key=os.getenv("ALPHA_VANTAGE_API_KEY", "")
-        ),
-        email_config=EmailConfig(
-            smtp_server="smtp.gmail.com",
-            smtp_port=587,
-            sender_email="",  # Insert sender email
-            sender_password="",  # Insert sender email password
-            recipient_email="",  # Insert recipient email
-        ),
-    )
+    return {
+        "ops": {
+            "stock_prices": {
+                "config": {
+                    "ticker": partition_key,
+                }
+            },
+            "price_changes": {
+                "config": {
+                    "ticker": partition_key,
+                }
+            },
+            "send_stock_email": {
+                "config": {
+                    "smtp_server": "smtp.gmail.com",
+                    "smtp_port": 587,
+                    "sender_email": os.getenv("SENDER_EMAIL", ""),
+                    "sender_password": os.getenv("SENDER_PASSWORD", ""),
+                    "recipient_email": os.getenv("RECIPIENT_EMAIL", ""),
+                }
+            }
+        }
+    }
 
 
 PARTITIONED_CONFIG = PartitionedConfig(partitions_def=PARTITIONS_DEF, run_config_for_partition_key_fn=partitioned_config)
