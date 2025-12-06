@@ -47,29 +47,48 @@ Edit `config.yaml` with your:
 
 ## Running the Pipeline
 
-### Run Dagster UI
+### Launch Dagster UI
+
+There are two ways to launch Dagster:
+
+#### Option 1: Using dagster dev (Recommended for Development)
+
+From the project root directory:
 
 ```bash
-cd /Users/aedanchiari/Downloads/Repos/dagster/code_server/data_pipeline
-dagster dev -f main.py
+dagster dev
 ```
 
-Then open http://localhost:3000 in your browser.
+This command:
+- Automatically discovers the `Definitions` object in [code_server/definitions.py](code_server/definitions.py)
+- Starts the Dagster web server
+- Opens the UI at http://localhost:3000
+- Enables hot-reloading for code changes
+
+#### Option 2: Using dagster-webserver (Production-like)
+
+```bash
+dagster-webserver -m code_server.definitions
+```
+
+This approach is more similar to production deployments.
 
 ### Materialize Assets
 
-In the Dagster UI:
-1. Go to "Assets"
-2. Select all three assets (or click "Materialize all")
-3. Click "Launchpad" to configure settings
-4. Paste your config.yaml content
-5. Click "Launch Run"
+Once the UI is running at http://localhost:3000:
+
+1. Navigate to **Assets** in the left sidebar
+2. You'll see three assets: `stock_prices`, `price_changes`, and `send_stock_email`
+3. Click **Materialize all** to run the entire pipeline
+4. Alternatively, select specific assets and click **Materialize selected**
+
+The pipeline will use configuration from [code_server/config_example.yaml](code_server/config_example.yaml) and environment variables.
 
 ### Testing Without API Key or Email
 
-The pipeline works without credentials for testing:
-- **No API key**: Uses mock data
-- **No email credentials**: Logs email content instead of sending
+The pipeline gracefully handles missing credentials:
+- **No API key**: Uses mock stock data for testing
+- **No email credentials**: Logs email content to console instead of sending
 
 ## Pipeline Architecture
 
@@ -107,7 +126,7 @@ stock_symbols:
 
 ### Change Schedule
 
-Modify the cron schedule in [main.py:205](main.py#L205):
+Modify the cron schedule in [code_server/data_pipeline/schedules/data_pipeline_schedule.py](code_server/data_pipeline/schedules/data_pipeline_schedule.py#L6):
 
 ```python
 cron_schedule="0 17 * * 1-5",  # Format: minute hour day month weekday
@@ -115,7 +134,7 @@ cron_schedule="0 17 * * 1-5",  # Format: minute hour day month weekday
 
 ### Email Format
 
-Customize the HTML email in the `format_email_body()` function at [main.py:158](main.py#L158).
+Customize the HTML email formatting in the `send_stock_email` asset function in [code_server/data_pipeline/data_pipeline_assets.py](code_server/data_pipeline/data_pipeline_assets.py).
 
 ## Troubleshooting
 
