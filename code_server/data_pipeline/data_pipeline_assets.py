@@ -39,6 +39,11 @@ def stock_prices(
         context.log.warning(msg)
         raise ValueError(msg)
 
+    if config.api_key == "ALPHA_VANTAGE_API_KEY":
+        msg = "API key is set to placeholder value. Please set ALPHA_VANTAGE_API_KEY in environment variables."
+        context.log.warning(msg)
+        raise ValueError(msg)
+
     # Fetch real data from Alpha Vantage
     base_url = "https://www.alphavantage.co/query"
 
