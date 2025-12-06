@@ -1,6 +1,8 @@
 # Stock Price Email Pipeline
 
-A Dagster pipeline that fetches stock prices and sends email notifications with daily price updates.
+A demonstration Dagster pipeline that showcases data orchestration patterns and best practices.
+
+> **Note**: This is a learning/portfolio project designed to demonstrate Dagster capabilities, not a production trading tool. It fetches stock prices and sends email notifications to illustrate real-world data pipeline patterns.
 
 ## Features
 
@@ -94,9 +96,20 @@ The pipeline gracefully handles missing credentials:
 
 The pipeline consists of three assets:
 
-1. **fetch_stock_prices**: Fetches data from Alpha Vantage API
-2. **calculate_price_changes**: Calculates price changes and percentages
+1. **stock_prices**: Fetches data from Alpha Vantage API
+2. **price_changes**: Calculates price changes and percentages
 3. **send_stock_email**: Formats and sends HTML email
+
+### Data Quality Checks
+
+The pipeline includes asset checks to ensure data quality:
+
+- **check_stock_prices_not_null**: Validates no null values in price data
+- **check_stock_prices_positive**: Ensures all prices are positive numbers
+- **check_price_change_calculation**: Verifies mathematical accuracy of calculations
+- **check_extreme_price_changes**: Flags unusual price movements (>50% change)
+
+Asset checks run automatically when assets are materialized and can be viewed in the Dagster UI under the "Checks" tab.
 
 ## Schedule
 
