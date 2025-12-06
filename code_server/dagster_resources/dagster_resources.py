@@ -3,4 +3,4 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).parent.parent.parent / "data"
 
-POLARS_PARQUET_IO_MANAGER = PolarsParquetIOManager(base_dir=DATA_DIR)
+POLARS_PARQUET_IO_MANAGER = PolarsParquetIOManager(base_dir=str(DATA_DIR))
