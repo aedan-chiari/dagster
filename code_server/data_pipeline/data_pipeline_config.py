@@ -46,7 +46,7 @@ def partitioned_config(partition_key: str) -> Config:
 
     return Config(
         stock_config=StockConfig(
-            stock_symbols=partition_key, api_key=os.getenv("ALPHA_VANTAGE_API_KEY", "")
+            ticker=partition_key, api_key=os.getenv("ALPHA_VANTAGE_API_KEY", "")
         ),
         email_config=EmailConfig(
             smtp_server="smtp.gmail.com",
