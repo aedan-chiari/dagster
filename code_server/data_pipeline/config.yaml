@@ -1,16 +1,18 @@
 # Stock Price Pipeline Configuration
 
 # List of stock tickers to track
+# Note: Start with 2-3 tickers to avoid API rate limits (free tier = 25 requests/day)
 stock_tickers:
   - "MSFT"
   - "AAPL"
-  - "GOOGL"
-  - "TSLA"
-  - "AMZN"
-  - "FB"
-  - "NFLX"
   - "NVDA"
-  - "AMD"
+  # Add more tickers as needed (uncomment below)
+  # - "GOOGL"
+  # - "TSLA"
+  # - "AMZN"
+  # - "META"
+  # - "NFLX"
+  # - "AMD"
 
 # Email configuration (optional - can also use environment variables)
 email:

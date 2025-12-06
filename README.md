@@ -161,3 +161,9 @@ Customize the HTML email formatting in the `send_stock_email` asset function in 
 - Check firewall/antivirus isn't blocking port 587
 
 **Schedule not running**: Make sure to enable the schedule in the Dagster UI under "Automation"
+
+**Asset check errors (FileNotFoundError)**:
+- Asset checks require the corresponding assets to be materialized first
+- If you see errors about missing `.parquet` files, materialize the assets for those partitions before running checks
+- In the UI, select specific partitions to materialize rather than trying to run all partitions at once
+- Asset checks will only run successfully on partitions that have been materialized

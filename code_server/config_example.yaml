@@ -3,16 +3,18 @@
 
 # List of stock tickers to track
 # Add or remove tickers as needed - each will become a partition
+# Note: Start with 2-3 tickers to avoid API rate limits (free tier = 25 requests/day)
 stock_tickers:
   - "MSFT"   # Microsoft
   - "AAPL"   # Apple
-  - "GOOGL"  # Google
-  - "TSLA"   # Tesla
-  - "AMZN"   # Amazon
-  - "FB"     # Meta/Facebook
-  - "NFLX"   # Netflix
   - "NVDA"   # NVIDIA
-  - "AMD"    # AMD
+  # Add more tickers as needed (uncomment below)
+  # - "GOOGL"  # Google
+  # - "TSLA"   # Tesla
+  # - "AMZN"   # Amazon
+  # - "META"   # Meta/Facebook
+  # - "NFLX"   # Netflix
+  # - "AMD"    # AMD
 
 # Email configuration for notifications
 # You can either set values here OR use environment variables
