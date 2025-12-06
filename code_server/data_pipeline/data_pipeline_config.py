@@ -6,6 +6,8 @@ from dagster import (
     EnvVar
 )
 import os
+import yaml
+from pathlib import Path
 
 
 class StockConfig(Config):
@@ -25,24 +27,33 @@ class EmailConfig(Config):
     recipient_email: str = ""
 
 
+def load_config():
+    """Load configuration from YAML file."""
+    config_path = Path(__file__).parent / "config.yaml"
+
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"Configuration file not found at {config_path}. "
+            "Please create config.yaml from config_example.yaml"
+        )
+
+    with open(config_path, 'r') as f:
+        return yaml.safe_load(f)
+
+
+# Load config and create partitions from stock tickers
+_config = load_config()
 PARTITIONS_DEF = StaticPartitionsDefinition(
-    partition_keys=[
-        "MSFT",
-        "AAPL",
-        "GOOGL",
-        "TSLA",
-        "AMZN",
-        "FB",
-        "NFLX",
-        "NVDA",
-        "AMD",
-    ]
+    partition_keys=_config.get('stock_tickers', [])
 )
 
 
 @static_partitioned_config(partition_keys=PARTITIONS_DEF.get_partition_keys())
 def partitioned_config(partition_key: str):
     """Partitioned configuration for the data pipeline."""
+
+    # Load email config from YAML, with environment variable fallbacks
+    email_config = _config.get('email', {})
 
     return {
         "ops": {
@@ -58,11 +69,11 @@ def partitioned_config(partition_key: str):
             },
             "send_stock_email": {
                 "config": {
-                    "smtp_server": "smtp.gmail.com",
-                    "smtp_port": 587,
-                    "sender_email": os.getenv("SENDER_EMAIL", ""),
-                    "sender_password": os.getenv("SENDER_PASSWORD", ""),
-                    "recipient_email": os.getenv("RECIPIENT_EMAIL", ""),
+                    "smtp_server": email_config.get("smtp_server", "smtp.gmail.com"),
+                    "smtp_port": email_config.get("smtp_port", 587),
+                    "sender_email": email_config.get("sender_email") or os.getenv("SENDER_EMAIL", ""),
+                    "sender_password": email_config.get("sender_password") or os.getenv("SENDER_PASSWORD", ""),
+                    "recipient_email": email_config.get("recipient_email") or os.getenv("RECIPIENT_EMAIL", ""),
                 }
             }
         }

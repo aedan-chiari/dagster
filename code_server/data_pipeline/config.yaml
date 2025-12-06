@@ -1,0 +1,23 @@
+# Stock Price Pipeline Configuration
+
+# List of stock tickers to track
+stock_tickers:
+  - "MSFT"
+  - "AAPL"
+  - "GOOGL"
+  - "TSLA"
+  - "AMZN"
+  - "FB"
+  - "NFLX"
+  - "NVDA"
+  - "AMD"
+
+# Email configuration (optional - can also use environment variables)
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  # Leave empty to use environment variables:
+  # SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL
+  sender_email: ""
+  sender_password: ""
+  recipient_email: ""

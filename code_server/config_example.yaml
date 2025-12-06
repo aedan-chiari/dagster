@@ -1,0 +1,33 @@
+# Example configuration for the stock price pipeline
+# Copy this file to config.yaml and customize as needed
+
+# List of stock tickers to track
+# Add or remove tickers as needed - each will become a partition
+stock_tickers:
+  - "MSFT"   # Microsoft
+  - "AAPL"   # Apple
+  - "GOOGL"  # Google
+  - "TSLA"   # Tesla
+  - "AMZN"   # Amazon
+  - "FB"     # Meta/Facebook
+  - "NFLX"   # Netflix
+  - "NVDA"   # NVIDIA
+  - "AMD"    # AMD
+
+# Email configuration for notifications
+# You can either set values here OR use environment variables
+# Environment variables take precedence if the YAML value is empty
+email:
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+  # Leave these empty to use environment variables:
+  # SENDER_EMAIL, SENDER_PASSWORD, RECIPIENT_EMAIL
+  sender_email: ""
+  sender_password: ""
+  recipient_email: ""
+
+# Required environment variable:
+# - ALPHA_VANTAGE_API_KEY: Get your free API key from https://www.alphavantage.co/support/#api-key
+#
+# Example:
+# export ALPHA_VANTAGE_API_KEY="your-api-key-here"
