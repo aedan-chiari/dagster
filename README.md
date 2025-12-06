@@ -100,17 +100,6 @@ The pipeline consists of three assets:
 2. **price_changes**: Calculates price changes and percentages
 3. **send_stock_email**: Formats and sends HTML email
 
-### Data Quality Checks
-
-The pipeline includes asset checks to ensure data quality:
-
-- **check_stock_prices_not_null**: Validates no null values in price data
-- **check_stock_prices_positive**: Ensures all prices are positive numbers
-- **check_price_change_calculation**: Verifies mathematical accuracy of calculations
-- **check_extreme_price_changes**: Flags unusual price movements (>50% change)
-
-Asset checks run automatically when assets are materialized and can be viewed in the Dagster UI under the "Checks" tab.
-
 ## Schedule
 
 The pipeline is configured to run automatically:
@@ -161,9 +150,3 @@ Customize the HTML email formatting in the `send_stock_email` asset function in 
 - Check firewall/antivirus isn't blocking port 587
 
 **Schedule not running**: Make sure to enable the schedule in the Dagster UI under "Automation"
-
-**Asset check errors (FileNotFoundError)**:
-- Asset checks require the corresponding assets to be materialized first
-- If you see errors about missing `.parquet` files, materialize the assets for those partitions before running checks
-- In the UI, select specific partitions to materialize rather than trying to run all partitions at once
-- Asset checks will only run successfully on partitions that have been materialized
