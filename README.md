@@ -2,7 +2,7 @@
 
 A demonstration Dagster pipeline that showcases data orchestration patterns and best practices.
 
-> **Note**: This is a learning/portfolio project designed to demonstrate Dagster capabilities, not a production trading tool. It fetches stock prices and sends email notifications to illustrate real-world data pipeline patterns.
+> **Note**: This is a project designed to demonstrate Dagster capabilities, not a production trading tool. It fetches stock prices and sends email notifications to illustrate real-world data pipeline patterns.
 
 ## Features
 
